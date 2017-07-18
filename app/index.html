@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sire</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="./app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+</head>
+<body>
+
+<div id="header">
+    <h1><img src='https://i.imgur.com/6YU4uJ3.png'> sire</h1><h4> money grows @ 0x25890fb2fd198c3139ba74ad1fff575bc986e7cb</h4>
+</div>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#">about</a></li>
+                <li><a href="#">get started</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href=""><span id="relicmintstatus"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br>
+<div id="contentmargin">
+<div id="content">
+    <div id="leftpanel" class="panel panel-default">
+        <div class="panel-heading"><h3>Account Details</h3><span id="address"></span></div>
+        <div class="panel-body">
+            <div id="minebtn">
+                <button id="relicmine" onclick="App.mintRelic()" class="btn btn">Mint relic</button>
+            </div>
+            <h4><span id="etherbalance"></span> Ether</h4>
+            <h4><span id="sirebalance"> </span> sire <img src='https://i.imgur.com/2MxBgyH.png'></h4>
+            <h4><img src='https://i.imgur.com/JJnxV1Y.png'> <span id="relicbalance"> </span> relic </h4>
+            <h4>Last relic Mint Blockheight: <span id="lastrelicmintblock"> </span></h4>
+        </div>
+    </div>
+    <div id="rightpanel" class="panel panel-default">
+        <div class="panel-heading"><h3>Contract Details</h3> 0x25890fb2fd198c3139ba74ad1fff575bc986e7cb</div>
+        <div class="panel-body">
+            <div id="rpright">
+                <h4><span id="ethercollected"> </span> of <span id="maxether"> </span> Ether</h4>
+                <h4><b>1</b> Ether = <span id="transferrate"></span> sire</h4>
+                <h4><span id="currentblock"> </span> Current Block</h4>
+                <h4>Next Adjustment: <span id="nextadjustment"></span></h4>
+            </div>
+            <h4>Available sire: <span id="sireavailable"> </span> </h4>
+            <h4>Total sire: <span id="sireincirculation"> </span> <img src='https://i.imgur.com/2MxBgyH.png'></h4>
+            <h4>Total relic: <span id="relicincirculation"> </span> <img src='https://i.imgur.com/JJnxV1Y.png'></h4>
+            <h4><b>1</b> sire / <b>1</b> block = <span id="rewardrate"> </span> relic</h4>
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <div id="leftpanel" class="panel panel-default">
+        <div class="panel-heading"><h3>Send sire<img src='https://i.imgur.com/D2ApxCR.png'></h3></div>
+        <div class="panel-body">
+            <br>
+            <br><label for="receiver">Address:</label><input type="text" id="sirereceiver"></input>
+            <br><label for="amount">Amount:</label><input type="text" id="sireamount"></input>
+            <br><br>
+            <div align="center">
+                <button id="siresend" onclick="App.transferSire()" class="btn btn">Send sire</button>
+            </div>
+            <br><br>
+            <span id="sirestatus"></span>
+        </div>
+    </div>
+    <div id="rightpanel" class="panel panel-default">
+        <div class="panel-heading"><h3>Send relic <img src='https://i.imgur.com/aECq7He.png'> </h3></div>
+        <div class="panel-body">
+
+            <br>
+            <br><label for="relicreceiver">Address:</label><input type="text" id="relicreceiver"></input>
+            <br><label for="relicamount">Amount:</label><input type="text" id="relicamount"></input>
+            <br><br>
+            <div align="center">
+                <button id="relicsend" onclick="App.transferRelic()" class="btn">Send relic</button>
+            </div>
+            <br><br>
+            <span id="relicstatus"></span>
+        </div>
+    </div>
+</div>
+</div>
+
+</html>
