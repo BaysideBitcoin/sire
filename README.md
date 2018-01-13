@@ -1,5 +1,5 @@
-# sire
 ![sire logo](./app/images/sire2.png)
+# sire
 #### Description
 sire is a currency that is designed to work for you. sires value is designed to increase or decrease along side Ethereum. sire provides users a steady investment vehicle with immediate returns.
 
