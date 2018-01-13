@@ -206,7 +206,7 @@ contract Sire is owned {
             nextAdjustmentBlock = block.number + REWARD_ADJUSTMENT;
             uint256 oldRate = relicReward;
             relicReward = mul(relicReward, RELIC_DEFLATION);
-            relicReward = div(relicReward, RELIC_DEFLATION);
+            relicReward = div(relicReward, 100);
             Adjusted(oldRate, relicReward);
             return true;
         }
@@ -223,7 +223,7 @@ contract Sire is owned {
         //require that the Withdrawl has not taken place
         require(oneTimeWithdrawl == false);
         // Transfer 15% of collected Ether to hardcoded devTeamAddress
-        uint256 devPayment = div(mul(etherCollected, RELIC_DEFLATION), RELIC_DEFLATION);
+        uint256 devPayment = div(mul(etherCollected, RELIC_DEFLATION), 100);
         devTeamAddress.transfer(devPayment);
         oneTimeWithdrawl = true;
         OneTimeWithdraw(devTeamAddress, devPayment);
