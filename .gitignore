@@ -16,6 +16,10 @@ tests/report/
 *.sqlite3
 *.sql
 
+*.eslintignore
+*.eslintrc
+*.babelrc
+
 # Ignore Development kit
 .idea
 # Sensitive Data

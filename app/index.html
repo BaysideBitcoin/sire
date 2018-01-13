@@ -14,95 +14,52 @@
     <meta name="author" content="">
 </head>
 <body>
+    <h1>sire - beta v2.0</h1>
+    <hr>
+    <h1>Contract's Info</h1>
+    <h3>Contract Address:  <span class="black">0x25890fb2fd198c3139ba74ad1fff575bc986e7cb</span></h3>
+    <h3>Network's Current Block: <span class="black" id="currentBlock"></span></h3>
+    <h3>Next Adjustment Block: <span class="black" id="nextAdjustmentBlock"></span></h3>
+    <h3>relic Minting Rate: <span class="black" id="relicRewardRate"></span> relic</h3>
+    <h3>1 Ether = <span class="black" id="sireTransferRate"></span> sire</h3>
+    <h3>Total Ether Collected: <span class="black" id="etherCollected"></span></h3>
+    <h3>Max Ether: <span class="black" id="maxEther"></span> Ether</h3>
+    <h3>sire in Circulation: <span class="black" id="sireInCirculation"></span> sire</h3>
+    <h3>relic in Circulation: <span class="black" id="relicInCirculation"></span> relic</h3>
 
-<div id="header">
-    <h1><img src='https://i.imgur.com/6YU4uJ3.png'> sire</h1><h4> money grows @ 0x25890fb2fd198c3139ba74ad1fff575bc986e7cb</h4>
-</div>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="#">about</a></li>
-                <li><a href="#">get started</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href=""><span id="relicmintstatus"></span></a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<br>
-<div id="contentmargin">
-<div id="content">
-    <div id="leftpanel" class="panel panel-default">
-        <div class="panel-heading"><h3>Account Details</h3><span id="address"></span></div>
-        <div class="panel-body">
-            <div id="minebtn">
-                <button id="relicmine" onclick="App.mintRelic()" class="btn btn">Mint relic</button>
-            </div>
-            <h4><span id="etherbalance"></span> Ether</h4>
-            <h4><span id="sirebalance"> </span> sire <img src='https://i.imgur.com/2MxBgyH.png'></h4>
-            <h4><img src='https://i.imgur.com/JJnxV1Y.png'> <span id="relicbalance"> </span> relic </h4>
-            <h4>Last relic Mint Blockheight: <span id="lastrelicmintblock"> </span></h4>
-        </div>
-    </div>
-    <div id="rightpanel" class="panel panel-default">
-        <div class="panel-heading"><h3>Contract Details</h3> 0x25890fb2fd198c3139ba74ad1fff575bc986e7cb</div>
-        <div class="panel-body">
-            <div id="rpright">
-                <h4><span id="ethercollected"> </span> of <span id="maxether"> </span> Ether</h4>
-                <h4><b>1</b> Ether = <span id="transferrate"></span> sire</h4>
-                <h4><span id="currentblock"> </span> Current Block</h4>
-                <h4>Next Adjustment: <span id="nextadjustment"></span></h4>
-            </div>
-            <h4>Available sire: <span id="sireavailable"> </span> </h4>
-            <h4>Total sire: <span id="sireincirculation"> </span> <img src='https://i.imgur.com/2MxBgyH.png'></h4>
-            <h4>Total relic: <span id="relicincirculation"> </span> <img src='https://i.imgur.com/JJnxV1Y.png'></h4>
-            <h4><b>1</b> sire / <b>1</b> block = <span id="rewardrate"> </span> relic</h4>
-        </div>
-    </div>
-</div>
-
-<div id="content">
-    <div id="leftpanel" class="panel panel-default">
-        <div class="panel-heading"><h3>Send sire<img src='https://i.imgur.com/D2ApxCR.png'></h3></div>
-        <div class="panel-body">
-            <br>
-            <br><label for="receiver">Address:</label><input type="text" id="sirereceiver"></input>
-            <br><label for="amount">Amount:</label><input type="text" id="sireamount"></input>
-            <br><br>
-            <div align="center">
-                <button id="siresend" onclick="App.transferSire()" class="btn btn">Send sire</button>
-            </div>
-            <br><br>
-            <span id="sirestatus"></span>
-        </div>
-    </div>
-    <div id="rightpanel" class="panel panel-default">
-        <div class="panel-heading"><h3>Send relic <img src='https://i.imgur.com/aECq7He.png'> </h3></div>
-        <div class="panel-body">
-
-            <br>
-            <br><label for="relicreceiver">Address:</label><input type="text" id="relicreceiver"></input>
-            <br><label for="relicamount">Amount:</label><input type="text" id="relicamount"></input>
-            <br><br>
-            <div align="center">
-                <button id="relicsend" onclick="App.transferRelic()" class="btn">Send relic</button>
-            </div>
-            <br><br>
-            <span id="relicstatus"></span>
-        </div>
-    </div>
-</div>
-</div>
-
+    <h3></h3>
+    <hr>
+    <h1>Your Info</h1>
+    <h3>Your Address: <span class="black"><span id="address"></span></span></h3>
+    <h3>You have: <span class="black"><span id="sireBalance"></span> sire</span></h3>
+    <h3>You have: <span class="black"><span id="relicBalance"></span> relic</span></h3>
+    <h3>You have: <span class="black"><span id="etherBalance"></span> Ether</span></h3>
+    <hr>
+    <h1>Send sire</h1>
+    <br><label for="amount">Amount:</label><input type="text" id="sireAmount" placeholder="e.g., 95"></input>
+    <br><label for="receiver">To Address:</label><input type="text" id="sireReceiver"
+                                                    placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+    <br><br>
+    <button id="send" onclick="App.transferSire()">Send</button>
+    <br><br>
+    <span id="sireStatus"></span>
+    <hr>
+    <h1>Mint and Burn sire</h1>
+    <br><label for="amount">Amount:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
+    <br><br>
+    <button id="send" onclick="App.sendCoin()">Mint</button> <button id="send" onclick="App.sendCoin()">Burn</button>
+    <br><br>
+    <span id="status"></span>
+    <hr>
+    <h1>Send relic</h1>
+    <br><label for="amount">Amount:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
+    <br><label for="receiver">To Address:</label><input type="text" id="receiver"
+                                                    placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+    <br><br>
+    <button id="send" onclick="App.sendCoin()">Send</button>
+    <br><br>
+    <span id="status"></span>
+    <hr>
+    <span class="hint"><strong></strong>(Make sure you have Metamask Browser Extension/Addon)</span>
+</body>
 </html>

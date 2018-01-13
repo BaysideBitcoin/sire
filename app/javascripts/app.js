@@ -1,68 +1,40 @@
-/**
- * @file app.js
- * @author Justin Chase <jujowned@gmail.com>
- * @version 1.0
- * @date 06/21/2017
- * @website https://sireli.cc
- *
- * @section LICENSE
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details at
- * https://www.gnu.org/copyleft/gpl.html
- *
- * @section DESCRIPTION
- * Javascript that updates HTML elements in index.html
- */
-
 // Import the page's CSS. Webpack will know what to do with it.
-import "../stylesheets/bootstrap.min.css";
 import "../stylesheets/app.css";
 
 // Import libraries we need.
-import {default as Web3} from 'web3';
-import {default as contract} from 'truffle-contract';
+import { default as Web3} from 'web3';
+import { default as contract } from 'truffle-contract'
 
 // Import our contract artifacts and turn them into usable abstractions.
-import Sire_artifacts from '../../build/contracts/Sire.json';
+import sire_artifacts from '../../build/contracts/Sire.json'
 
-// Sire is our usable abstraction, which we'll use through the code below.
-var Sire = contract(Sire_artifacts);
+// Get the sire abstraction which we'll use through the code below
+var Sire = contract(sire_artifacts);
 
-// Holds all accounts, and currrent account
 var accounts;
 var account;
 
 window.App = {
-    /**@dev Updates all of the contract elements on the page, sets up web3 and gets eth accounts
-     */
-    start: function () {
-        var self = this;
+  start: function() {
+    var self = this;
 
-        // Bootstrap the Sire abstraction
-        Sire.setProvider(web3.currentProvider);
+    // Bootstrap the sire abstraction for usage
+    Sire.setProvider(web3.currentProvider);
 
-        // Get the initial account balance so it can be displayed.
-        web3.eth.getAccounts(function (err, accs) {
-            if (err != null) {
-                alert("Error fetching your Ethereum accounts.");
-                return;
-            }
+    // Get the initial account balance so it can be displayed.
+    web3.eth.getAccounts(function(err, accs) {
+      if (err != null) {
+        alert("Wew! There was an error fetching your account");
+        return;
+      }
 
-            if (accs.length == 0) {
-                alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
-                return;
-            }
+      if (accs.length == 0) {
+        alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+        return;
+      }
 
-            accounts = accs;
-            account = accounts[0];
+      accounts = accs;
+      account = accounts[0];
 
             // Refresh contract information
             self.refreshSireBalance();
@@ -70,13 +42,11 @@ window.App = {
             self.refreshEtherBalance();
             self.refreshEtherCollected();
             self.refreshMaxEther();
-            self.refreshSireAvailable();
             self.refreshSireInCirculation();
             self.refreshRelicInCirculation();
             self.refreshCurrentBlock();
             self.refreshTransferRate();
             self.refreshNextAdjustmentBlock();
-            self.refreshLastRelicMintBlock();
             self.refreshRelicRewardRate();
         });
     },
@@ -84,21 +54,21 @@ window.App = {
     /**@dev Sets the sire transfer status html element
      */
     setSireStatus: function (message) {
-        var status = document.getElementById("sirestatus");
+        var status = document.getElementById("sireStatus");
         status.innerHTML = message;
     },
 
     /**@dev Sets the relic transfer status html element
      */
     setRelicStatus: function (message) {
-        var status = document.getElementById("relicstatus");
+        var status = document.getElementById("relicStatus");
         status.innerHTML = message;
     },
 
     /**@dev Sets the relic mine status html element
      */
     setRelicMintStatus: function (message) {
-        var status = document.getElementById("relicmintstatus");
+        var status = document.getElementById("relicMintStatus");
         status.innerHTML = message;
     },
 
@@ -106,7 +76,7 @@ window.App = {
      */
     refreshEtherBalance: function () {
         return web3.eth.getBalance(account, function (error, result) {
-            var balance_element = document.getElementById("etherbalance");
+            var balance_element = document.getElementById("etherBalance");
             balance_element.innerHTML = web3.fromWei(result.valueOf());
             var address_element = document.getElementById("address");
             address_element.innerHTML = account;
@@ -117,7 +87,7 @@ window.App = {
      */
     refreshCurrentBlock: function () {
         return web3.eth.getBlockNumber(function(error, result){
-            var current_block_element = document.getElementById("currentblock");
+            var current_block_element = document.getElementById("currentBlock");
             current_block_element.innerHTML = result.valueOf();
         });
     },
@@ -128,9 +98,9 @@ window.App = {
         var sire;
         return Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.etherCollectedBalance.call();
+            return sire.etherCollected();
         }).then(function (ethCollected) {
-            var collected_element = document.getElementById("ethercollected");
+            var collected_element = document.getElementById("etherCollected");
             collected_element.innerHTML = web3.fromWei(ethCollected.valueOf());
         });
     },
@@ -141,9 +111,9 @@ window.App = {
         var sire;
         return Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.maxEtherBalance.call();
+            return sire.MAX_ETHER();
         }).then(function (maxEther) {
-            var maxEther_element = document.getElementById("maxether");
+            var maxEther_element = document.getElementById("maxEther");
             maxEther_element.innerHTML = web3.fromWei(maxEther.valueOf());
         });
     },
@@ -154,23 +124,11 @@ window.App = {
         var sire;
         return Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.nextAdjustmentBlockNumber.call();
+            return sire.nextAdjustmentBlock();
         }).then(function (maxEther) {
-            var maxEther_element = document.getElementById("nextadjustment");
-            maxEther_element.innerHTML = maxEther.valueOf();
-        });
-    },
-
-    /**@dev Sets the sire available html element to wether or not the contract has sire for exchange
-     */
-    refreshSireAvailable: function () {
-        var sire;
-        return Sire.deployed().then(function (instance) {
-            sire = instance;
-            return sire.sireAvailableBool.call();
-        }).then(function (maxEther) {
-            var maxEther_element = document.getElementById("sireavailable");
-            maxEther_element.innerHTML = maxEther.valueOf();
+            var maxEther_element = document.getElementById("nextAdjustmentBlock");
+            var aprox_days = maxEther.valueOf() / 5000;
+            maxEther_element.innerHTML = maxEther.valueOf() + ' blocks (~' + Math.round(aprox_days, 0) + ' days)';
         });
     },
 
@@ -180,9 +138,9 @@ window.App = {
         var sire;
         return Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.sireInCirculationAmount.call();
+            return sire.totalSupply();
         }).then(function (maxEther) {
-            var maxEther_element = document.getElementById("sireincirculation");
+            var maxEther_element = document.getElementById("sireInCirculation");
             maxEther_element.innerHTML = Sire.web3.fromWei(maxEther.valueOf());
         });
     },
@@ -193,23 +151,10 @@ window.App = {
         var sire;
         return Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.relicRewardRate.call();
+            return sire.relicReward();
         }).then(function (maxEther) {
-            var maxEther_element = document.getElementById("rewardrate");
-            maxEther_element.innerHTML = maxEther.valueOf()/100000;
-        });
-    },
-
-    /**@dev Sets the last relic mint block html element to when users last relic block was minted
-     */
-    refreshLastRelicMintBlock: function () {
-        var sire;
-        return Sire.deployed().then(function (instance) {
-            sire = instance;
-            return sire.lastRelicMintBlock.call(account, {from: account});
-        }).then(function (maxEther) {
-            var maxEther_element = document.getElementById("lastrelicmintblock");
-            maxEther_element.innerHTML = maxEther.valueOf();
+            var maxEther_element = document.getElementById("relicRewardRate");
+            maxEther_element.innerHTML = '.0000' + maxEther.valueOf();
         });
     },
 
@@ -219,9 +164,9 @@ window.App = {
         var sire;
         return Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.relicInCirculationAmount.call();
+            return sire.relicTotalSupply();
         }).then(function (maxEther) {
-            var maxEther_element = document.getElementById("relicincirculation");
+            var maxEther_element = document.getElementById("relicInCirculation");
             maxEther_element.innerHTML = Sire.web3.fromWei(maxEther.valueOf());
         });
     },
@@ -235,7 +180,7 @@ window.App = {
             sire = instance;
             return sire.relicBalanceOf.call(account, {from: account});
         }).then(function (value) {
-            var balance_element = document.getElementById("relicbalance");
+            var balance_element = document.getElementById("relicBalance");
             balance_element.innerHTML = web3.fromWei(value.valueOf());
         });
     },
@@ -247,9 +192,9 @@ window.App = {
         var sire;
         Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.sireTransferRate.call();
+            return sire.EXCHANGE_RATE();
         }).then(function (value) {
-            var transfer_rate_element = document.getElementById("transferrate");
+            var transfer_rate_element = document.getElementById("sireTransferRate");
             transfer_rate_element.innerHTML = value.valueOf();
         });
     },
@@ -261,15 +206,15 @@ window.App = {
         var sire;
         Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.sireBalanceOf.call(account, {from: account});
+            return sire.balanceOf.call(account, {from: account});
         }).then(function (value) {
-            var balance_element = document.getElementById("sirebalance");
+            var balance_element = document.getElementById("sireBalance");
             var balance_address = document.getElementById("address");
             balance_element.innerHTML = web3.fromWei(value.valueOf());
             balance_address.innerHTML = web3.eth.accounts[0];
-            if(web3.fromWei(value.valueOf()) == 0){
+            /*if(web3.fromWei(value.valueOf()) == 0){
                 document.getElementById("relicmine").style.display = "none";
-            }
+            }*/
         }).catch(function (e) {
             console.log(e);
             self.setSireStatus("Error getting sire balance; see log.");
@@ -281,7 +226,7 @@ window.App = {
     mintRelic: function () {
         var self = this;
 
-        this.setRelicMintStatus("Minting... (please wait)");
+        this.setRelicMintStatus("Minting relic... (please wait)");
         var sire;
         Sire.deployed().then(function (instance) {
             sire = instance;
@@ -302,16 +247,16 @@ window.App = {
     transferSire: function () {
         var self = this;
 
-        var amount = parseFloat(document.getElementById("sireamount").value);
-        var receiver = document.getElementById("sirereceiver").value;
+        var amount = parseFloat(document.getElementById("sireAmount").value);
+        var receiver = document.getElementById("sireReceiver").value;
 
-        this.setSireStatus("Initiating transaction... (please wait)");
+        this.setSireStatus("Initiating sire transaction... (please wait)");
         var sire;
         Sire.deployed().then(function (instance) {
             sire = instance;
-            return sire.sireTransfer(receiver, Sire.web3.toWei(amount, 'ether'), {from: account});
+            return sire.transfer(receiver, Sire.web3.toWei(amount, 'ether'), {from: account});
         }).then(function () {
-            self.setSireStatus("Transaction complete!");
+            self.setSireStatus("sire Transaction complete!");
             self.refreshSireBalance();
         }).catch(function (e) {
             console.log(e);
@@ -342,20 +287,16 @@ window.App = {
     }
 };
 
-
-/**@dev Sets up web3 and starts App
- */
-window.addEventListener('load', function () {
-    // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-    if (typeof web3 !== 'undefined') {
-        //console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 Sire, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
-        // Use Mist/MetaMask's provider
-        window.web3 = new Web3(web3.currentProvider);
-    } else {
-        console.warn("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
-        // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-        window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-    }
-
-    App.start();
+window.addEventListener('load', function() {
+  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  if (typeof web3 !== 'undefined') {
+    console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 sire, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
+    // Use Mist/MetaMask's provider
+    window.web3 = new Web3(web3.currentProvider);
+  } else {
+    console.warn("No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
+    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+    window.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+  }
+  App.start();
 });
